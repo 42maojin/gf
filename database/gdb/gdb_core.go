@@ -22,6 +22,7 @@ import (
 	"github.com/gogf/gf/v2/internal/intlog"
 	"github.com/gogf/gf/v2/internal/reflection"
 	"github.com/gogf/gf/v2/internal/utils"
+	"github.com/gogf/gf/v2/os/gcfg"
 	"github.com/gogf/gf/v2/text/gregex"
 	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
@@ -743,6 +744,9 @@ func (c *Core) GetTablesWithCache() ([]string, error) {
 		ctx      = c.db.GetCtx()
 		cacheKey = fmt.Sprintf(`Tables: %s`, c.db.GetGroup())
 	)
+	cfg := &gcfg.AdapterFile{}
+	cfg.Clear()
+
 	result, err := c.GetCache().GetOrSetFuncLock(
 		ctx, cacheKey, func(ctx context.Context) (interface{}, error) {
 			tableList, err := c.db.Tables(ctx)
